@@ -1,0 +1,9 @@
+note over browser:
+Data type is JSON
+Data sent as JSON-string
+Event handler creates 
+new note and adds on
+note list and sends
+to server.
+end note
+browser -> server: https://fullstack-exampleapp.herokuapp.com/new_note_spa
