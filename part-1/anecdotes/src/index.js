@@ -1,12 +1,51 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const Button = (props) =>(
+  <button onClick = {props.handleClick}>{props.text}</button>
+)
+
+const Random = (len) => {
+  var x = Math.floor((Math.random() * len))
+  return x
+}
+
+const increment = (array,index) => {
+   return array.map((ele,num) => {
+    if (num === index){
+    return ele + 1;
+    }
+    return ele;
+   })
+}
+
+const largestVotes = (array) => {
+    var max = array[0]
+    var maxIndex = 0
+  for(var i = 1; i<array.length;i++){
+    if(array[i]>=max){
+      max = array[i]
+      maxIndex = i
+    }
+  }
+  return maxIndex
+}
+
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(Array(anecdotes.length).fill(0))
 
   return (
     <div>
-      {props.anecdotes[selected]}
+      <h1>Anecdote of the day</h1>
+      {props.anecdotes[selected]}<br  />
+      has {points[selected]} votes<br  />
+      <Button handleClick = {() => setPoints(increment(points,selected))} text = 'vote'/>
+      <Button handleClick = {() => setSelected(Random(anecdotes.length))} text = 'next anecdote'/>
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[largestVotes(points)]}<br  />
+      has {points[largestVotes(points)]} votes
     </div>
   )
 }
@@ -24,3 +63,4 @@ ReactDOM.render(
   <App anecdotes={anecdotes} />,
   document.getElementById('root')
 )
+
