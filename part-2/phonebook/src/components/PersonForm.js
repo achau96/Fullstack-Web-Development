@@ -2,23 +2,34 @@ import React, {useState, useEffect} from 'react'
 import personsService from '../services/persons'
 
 
-const PersonForm = ({setNewNum, newName, newNum, handleNameChange, handleNumChange, setPersons, persons, setNewName}) => {
+const PersonForm = ({setError, setMessage, setNewNum, newName, newNum, handleNameChange, handleNumChange, setPersons, persons, setNewName}) => {
   const [id, setID] = useState(null) 
 
   const changeID = () => {
-  persons.forEach((persons) => persons.name === newName ? (setID(persons.id),()=>{console.log('state completed', id)}): null)
+  persons.forEach((persons) => persons.name === newName ? (setID(persons.id)): null)
   }
 
-
   useEffect(() => {
-    console.log(id)
     if(id!==null){
     personsService
     .update((id),nameObject)
     .then(updatedPersons =>{
-      setPersons(persons.map(persons => persons.name !== newName ? persons: updatedPersons))})}
+      setPersons(persons.map(persons => persons.name !== newName ? persons: updatedPersons))})
+      .catch(error =>{
+        setError(true)
+        setMessage(`${nameObject.name} has already been deleted from server`)
+        setTimeout(() => {
+          setMessage(null)
+          setError(false)
+        }, 2000)
+      })
+    setMessage(`Changed ${nameObject.name}'s number to ${nameObject.number}`)
+    setID(null)
+    setTimeout(() => {
+      setMessage(null)
+    }, 2000)}
       else {
-        console.log('it is null')
+        console.log('null, do not run')
       }
   },[id]
   )
@@ -43,6 +54,10 @@ const PersonForm = ({setNewNum, newName, newNum, handleNameChange, handleNumChan
               setPersons(persons.concat(returnedPerson))
               setNewName('')
               setNewNum('')
+              setMessage(`Added ${nameObject.name}`)
+              setTimeout(() => {
+                setMessage(null)
+              }, 5000)
               exists = false  
             })
         
