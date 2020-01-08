@@ -18,7 +18,7 @@ const Weather = ({countries}) => {
         <h2>Weather in {weather.location.name}</h2>
         <h3>Temperature: {weather.current.temperature} </h3>
         <img src = {weather.current.weather_icons} alt = 'weather type' />
-        <h3>wind: {weather.current.wind_speed} kph direction {weather.current.wind_dir}</h3>
+        <h3>Wind: {weather.current.wind_speed} kph direction {weather.current.wind_dir}</h3>
       </div>
     )
   }

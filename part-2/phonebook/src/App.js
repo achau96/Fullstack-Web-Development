@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
+import personsService from './services/persons'
+
 const App = () => {
   const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
@@ -10,12 +11,13 @@ const App = () => {
   const [ filt, setNewFilt] = useState('')
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons')
-    .then(response => {
-      console.log('promise fufilled')
-      setPersons(response.data)
-    })
+    personsService
+      .getAll()
+      .then(personList => 
+        setPersons(personList))
+
   }, [])
+  
   console.log('render', persons.length, 'persons')
 
   const handleNameChange = (event) => {
@@ -36,9 +38,9 @@ const App = () => {
       <Filter handleFiltChange = {handleFiltChange}/>
       <h2>add a new</h2>
       <PersonForm handleNameChange = {handleNameChange} handleNumChange = {handleNumChange}
-      newName = {newName} newNum = {newNum} persons = {persons} setPersons = {setPersons} setNewName = {setNewName}/>
+      newName = {newName} newNum = {newNum} persons = {persons} setPersons = {setPersons} setNewName = {setNewName} setNewNum = {setNewNum}/>
       <h2>Numbers</h2>
-      <Persons persons = {persons} filt = {filt}/>
+      <Persons persons = {persons} filt = {filt} setPersons = {setPersons}/>
     </div>
   )
 }
